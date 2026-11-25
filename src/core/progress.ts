@@ -4,7 +4,7 @@ export type Lang = 'en' | 'nl'
 export type Stage = 1 | 2 | 3
 
 /** Colour palettes, defined in src/themes.css. The first is the default. */
-export const PALETTES = ['lavender', 'pink', 'unicorn'] as const
+export const PALETTES = ['lavender', 'pink', 'unicorn', 'squiggles'] as const
 export type Palette = (typeof PALETTES)[number]
 
 export interface SkillState {

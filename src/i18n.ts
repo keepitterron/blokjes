@@ -39,7 +39,7 @@ const en = {
   slips:{carry:'forgetting the carried ten',flip:'taking the smaller ones digit from the bigger one',keep:'forgetting the ten that was opened',added:'adding instead of multiplying',other:'other slips'},
   mostSlip:(s:string,n:number)=>`Most common slip: ${s} (${n} ${n===1?'time':'times'}).`,
   days:['M','T','W','T','F','S','S'],woof:['Woof!','Bau!','Woef!','Wof?'],sound:'Sound',quit:'Stop for now',
-  palette:'Colours',palettes:{lavender:'Lavender',pink:'Pink',unicorn:'Unicorn'}
+  palette:'Colours',palettes:{lavender:'Lavender',pink:'Pink',unicorn:'Unicorn',squiggles:'Squiggles'}
 }
 
 const nl: typeof en = {
@@ -82,7 +82,7 @@ const nl: typeof en = {
   slips:{carry:'het extra tiental vergeten',flip:'de kleinste eenheid van de grootste afhalen',keep:'vergeten dat er een tiental is ingewisseld',added:'optellen in plaats van keer',other:'andere foutjes'},
   mostSlip:(s:string,n:number)=>`Meest voorkomende foutje: ${s} (${n} keer).`,
   days:['M','D','W','D','V','Z','Z'],woof:['Woef!','Bau!','Woof!','Wof?'],sound:'Geluid',quit:'Stoppen',
-  palette:'Kleuren',palettes:{lavender:'Lavendel',pink:'Roze',unicorn:'Eenhoorn'}
+  palette:'Kleuren',palettes:{lavender:'Lavendel',pink:'Roze',unicorn:'Eenhoorn',squiggles:'Kronkels'}
 }
 
 export const T = { en, nl }

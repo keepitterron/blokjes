@@ -86,7 +86,7 @@ Review sums use their own colour, purple (`--rv`). They are marked in four ways:
 
 ## Visual design
 
-- **Palette.** A lavender page (`--bg #F3F0FA`), deep plum text, and tangerine for primary actions (`--go #FF8A3D`). Full light and dark themes are defined as tokens on `:root`. The tray is light wood in both themes.
+- **Palette.** A lavender page (`--bg #F3F0FA`), deep plum text, and tangerine for primary actions (`--go #FF8A3D`). Full light and dark themes are defined as tokens on `:root`. The tray is light wood in both themes. Other palettes (pink, unicorn, squiggles) are picked with the swatch button in the header. Squiggles is a rainbow page with black squiggles: text sits on white stickers with black outlines and hard shadows, and the blocks get black outlines and a cartoon shine while keeping their colours.
 - **Type.** Fredoka for headings, numbers and the pad; Atkinson Hyperlegible for body text.
 - **Tray.** Light wood with subtle grain, and a layered plywood edge made from stacked box-shadows.
 - **Blocks.** Ones are glossy cubes with a top-left sheen, a darker base edge and a contact shadow. Tens are notched, side-lit bars with a depth shadow. Ten-frames have recessed hollows. Targets are dashed and gently pulsing. Bowls are ceramic with a rim. In the Picture stage, blocks are tinted outlines.

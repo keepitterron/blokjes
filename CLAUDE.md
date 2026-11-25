@@ -13,7 +13,7 @@ Node 24 (`.nvmrc`), npm, Vite 8, TypeScript 7 (strict, `noUncheckedIndexedAccess
 - `src/core/`: pure logic, no DOM, storage or strings (enforced by `.oxlintrc.json`). `skills.ts` (sum generation, slips), `progress.ts` (save shape and repair, grading, session plan, review queue), `speed.ts` (timing medians). Every rule here has a test in `tests/`.
 - `src/store.ts`: the single saved state `S` in localStorage `blokjes-v1`, plus `L()` for the current strings.
 - `src/i18n.ts`: en/nl strings. Dutch uses school terms (T/E, overschrijden, inwisselen).
-- `src/themes.css`: all colour tokens. Palettes (lavender, pink, unicorn) change page, accent and review colours only; block colours and the wooden tray are fixed. Steps to add one are at the top of the file.
+- `src/themes.css`: all colour tokens. Palettes (lavender, pink, unicorn, squiggles) change page, accent and review colours, and may restyle surfaces and the blocks’ finish. Block colours (green ones, blue tens) and the wooden tray are fixed. Loaded after `style.css`. Steps to add one are at the top of the file.
 - `src/ui/`: screens (`home`, `session`, `done`, `grown`), tray markup (`blocks`), animation (`motion`), Spartacus (`dog`), `sound`.
 
 ## Rules

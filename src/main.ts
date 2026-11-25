@@ -1,4 +1,5 @@
 import './style.css'
+import './themes.css'
 import { PALETTES } from './core/progress.ts'
 import { L, S, save } from './store.ts'
 import { $, nav } from './ui/dom.ts'

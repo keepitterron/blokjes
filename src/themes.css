@@ -2,6 +2,9 @@
   Colour tokens. Each token is light-dark(light, dark), so a palette is one block.
   To add a palette: copy a [data-palette] block below, add its id to PALETTES in src/core/progress.ts
   and its name to `palettes` in src/i18n.ts.
+  A palette can also restyle surfaces and the blocks' finish (see squiggles). Blocks keep their colours:
+  ones green, tens blue. Rules that restyle blocks use :where() for the palette so the Picture stage
+  (.pic) still wins. This file loads after style.css (see main.ts), so its rules override the base ones.
 */
 
 /* Fixed in every palette: the Montessori colour code (green ones, blue tens; red reserved for hundreds) and the wooden tray. */
@@ -13,6 +16,7 @@
   --one:#4FAE48;--one-d:#2E7A2A;--one-ink:light-dark(#2E7A2A,#94D886);--one-soft:light-dark(#E2F3DE,#25402A);
   --ten:#3F86DB;--ten-d:#1F5BA6;--ten-ink:light-dark(#1F5BA6,#93C1F4);--ten-soft:light-dark(#DCEAFB,#21395A);
   --pep:#A0662E;
+  --swatch:var(--go-fill);
 }
 :root[data-theme="light"]{color-scheme:light}
 :root[data-theme="dark"]{color-scheme:dark}
@@ -27,6 +31,7 @@
   --rv/-soft/-ink  review sums; must stay distinct from --go
   --sun          second confetti colour
   --page-art     background layer(s) under the page; none for a plain page
+  --swatch       the palette button's preview (defaults to --go-fill)
 */
 :root,:root[data-palette="lavender"]{
   --bg:light-dark(#F3F0FA,#1C1828);--ink:light-dark(#2C2440,#EEEAF7);--ink2:light-dark(#655D80,#AFA7C6);--line:light-dark(#DCD6EA,#3A3350);
@@ -59,3 +64,55 @@
     radial-gradient(55% 45% at 100% 15%,light-dark(#DDF1FF,#1F3047) 0,transparent 70%),
     radial-gradient(70% 45% at 40% 100%,light-dark(#E6FFF0,#1D3A30) 0,transparent 70%);
 }
+
+/* Black squiggles on a rainbow, with comic-book outlines on cards, buttons and blocks. */
+:root[data-palette="squiggles"]{
+  --bg:light-dark(#FF6B8B,#7A1F3D);--ink:light-dark(#151318,#F6F2FA);--ink2:light-dark(#423D4A,#CBC4D8);--line:#151318;
+  --card:light-dark(#FFFFFF,#1F1B26);--soft:light-dark(#F3EFF8,#2F2A38);--spot:light-dark(#FFF3B0,#3B3421);
+  --go:#FF2E88;--go-fill:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20' fill='none' stroke='rgba(0,0,0,.13)' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M4 10q6-9 12 0t12 0t12 0'/%3E%3C/svg%3E") 0 0/34px 17px,#FFD23F;--go-edge:#151318;--go-ink:#151318;
+  --rv:light-dark(#6B3FD6,#B49BFF);--rv-soft:light-dark(#ECE4FF,#35295A);--rv-ink:light-dark(#FFFFFF,#151318);
+  --sun:#22C7F0;
+  --rainbow:linear-gradient(160deg,light-dark(#FF6B8B,#7A1F3D) 0%,light-dark(#FF9F45,#7A3F10) 20%,light-dark(#FFE14D,#6E5E0E) 40%,light-dark(#63DB8B,#155E38) 60%,light-dark(#4FC3F7,#134E78) 80%,light-dark(#A47BFF,#3F2A80) 100%);
+  --page-art:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='black' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 34q9-13 18 0t18 0t18 0t18 0'/%3E%3Cpath d='M128 22l11 14l11-14l11 14l11-14l11 14'/%3E%3Cpath d='M196 74c18-6 24 18 8 22c-12 3-14-12-3-13'/%3E%3Cpath d='M36 92q13 9 0 18t0 18t0 18t0 18'/%3E%3Cpath d='M86 112c10-22 34-22 30 0c-3 16-22 6-12-6c10-12 28-6 34 8'/%3E%3Cpath d='M150 156q9-13 18 0t18 0t18 0'/%3E%3Cpath d='M24 206l10-12l10 12l10-12l10 12'/%3E%3Cpath d='M118 196c-14-2-16 18-2 20c12 2 14-14 4-14'/%3E%3Cpath d='M214 188q-13 9 0 18t0 18'/%3E%3Ccircle cx='100' cy='44' r='4.5' fill='black' stroke='none'/%3E%3Ccircle cx='186' cy='118' r='4.5' fill='black' stroke='none'/%3E%3Ccircle cx='70' cy='170' r='4.5' fill='black' stroke='none'/%3E%3Ccircle cx='228' cy='22' r='4.5' fill='black' stroke='none'/%3E%3Ccircle cx='160' cy='224' r='4.5' fill='black' stroke='none'/%3E%3C/svg%3E") 0 0/240px 240px,var(--rainbow);
+  --swatch:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20' fill='none' stroke='black' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M4 10q6-9 12 0t12 0t12 0'/%3E%3C/svg%3E") center/78% no-repeat,conic-gradient(#FF6B8B,#FF9F45,#FFE14D,#63DB8B,#4FC3F7,#A47BFF,#FF6B8B);
+}
+/* Anything that sits straight on the page gets a white sticker, so text never runs over the squiggles. */
+:root[data-palette="squiggles"] :is(.brand,.hero,#home>.today,.week,.path li,.gcard,.notes li,.prog,.slabel,.eq,.msg,.backrow,.gintro,#done>h1,#done>p){
+  background:var(--card);border:3px solid var(--line);box-shadow:4px 4px 0 var(--line)}
+:root[data-palette="squiggles"] :is(.brand,.hero,.week,.slabel,.eq,.backrow,.gintro,#done>h1,#done>p){width:fit-content;max-width:100%}
+:root[data-palette="squiggles"] .hero{border-radius:28px;padding:12px 22px 12px 12px}
+:root[data-palette="squiggles"] .brand{border-radius:14px;padding:3px 12px 3px 8px}
+:root[data-palette="squiggles"] .week{border-radius:18px;padding:8px 14px 12px;gap:6px}
+:root[data-palette="squiggles"] .week .lbl{flex-basis:100%}
+:root[data-palette="squiggles"] #home>h2{display:inline-block;background:#151318;color:#FF8FB0;padding:3px 14px;border-radius:12px;transform:rotate(-2deg)}
+:root[data-palette="squiggles"] .path li{border-radius:20px}
+:root[data-palette="squiggles"] .path li.lock{opacity:1}
+:root[data-palette="squiggles"] .path li.lock>*{opacity:.5}
+:root[data-palette="squiggles"] .path li.cur{border-color:var(--go);box-shadow:5px 5px 0 var(--go)}
+:root[data-palette="squiggles"] .gcard,:root[data-palette="squiggles"] .notes li{border-radius:18px}
+:root[data-palette="squiggles"] .prog{padding:5px;border-radius:12px}
+:root[data-palette="squiggles"] .slabel{padding:2px 12px;border-radius:999px}
+:root[data-palette="squiggles"] .eq{justify-self:center;padding:8px 16px;border-radius:22px}
+:root[data-palette="squiggles"] .msg{border-radius:16px;padding:8px 12px}
+:root[data-palette="squiggles"] .backrow{padding:6px 16px 6px 6px;border-radius:18px}
+:root[data-palette="squiggles"] .gintro{padding:8px 14px;border-radius:16px}
+:root[data-palette="squiggles"] #done>h1,:root[data-palette="squiggles"] #done>p{margin-inline:auto;padding:4px 16px;border-radius:16px}
+:root[data-palette="squiggles"] #done>h1{margin-bottom:12px}
+:root[data-palette="squiggles"] :is(.icon-btn,.seg,.dogwrap,.opt,.day,.bubble){border:2.5px solid var(--line)}
+:root[data-palette="squiggles"] .seg button[aria-pressed="true"]{background:var(--line);color:var(--card)}
+:root[data-palette="squiggles"] .btn{border:3px solid var(--line)}
+:root[data-palette="squiggles"] .btn:active{transform:translateY(3px) rotate(-1.5deg)}
+:root[data-palette="squiggles"] .pad button{border:2.5px solid var(--line)}
+:root[data-palette="squiggles"] .tray{outline:3px solid var(--line);outline-offset:0}
+/* Blocks: flat colour, black outline, a cartoon shine and a hard shadow. */
+:where(:root[data-palette="squiggles"]) .cb{
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M5.5 12.5q0-6 6.5-7'/%3E%3C/svg%3E") 0 0/100% 100%,var(--c);
+  box-shadow:inset 0 0 0 2px #151318,2px 2px 0 #151318}
+:where(:root[data-palette="squiggles"]) .cb.sm:where(:not(.pic *)){box-shadow:inset 0 0 0 1.5px #151318,1.5px 1.5px 0 #151318}
+:where(:root[data-palette="squiggles"]) .bar{
+  background:repeating-linear-gradient(180deg,transparent 0 8.5px,rgba(21,19,24,.6) 8.5px 10px),linear-gradient(90deg,transparent 0 3px,rgba(255,255,255,.8) 3px 5.5px,transparent 5.5px),var(--ten);
+  box-shadow:inset 0 0 0 2px #151318,2px 2px 0 #151318}
+/* Confetti: little squiggles in black and rainbow colours. */
+:where(:root[data-palette="squiggles"]) .conf.sq{width:22px;height:11px;border-radius:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20' fill='none' stroke='black' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M4 10q6-9 12 0t12 0t12 0'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20' fill='none' stroke='black' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M4 10q6-9 12 0t12 0t12 0'/%3E%3C/svg%3E") center/contain no-repeat}
+:where(:root[data-palette="squiggles"]) .conf.go{background:#151318}
+:where(:root[data-palette="squiggles"]) .conf.sun{background:var(--rainbow)}
