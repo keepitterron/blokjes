@@ -157,3 +157,9 @@ describe('speed', () => {
     expect(s).toEqual({ stage: 3, last: 20, n: 3, prev: null, daily: [15, 30] })
   })
 })
+
+it('repair keeps a known palette and falls back to the default', () => {
+  expect(repair({ palette: 'unicorn' }, 'en').palette).toBe('unicorn')
+  expect(repair({ palette: 'neon' }, 'en').palette).toBe('lavender')
+  expect(repair(null, 'en').palette).toBe('lavender')
+})

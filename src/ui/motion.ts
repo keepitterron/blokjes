@@ -73,7 +73,7 @@ export function popConfetti(pt: Pt | null) {
 /** Right answer: confetti from the cells and a ripple-hop across the tray. */
 export function cheer() {
   const cells = q('#eq .cells')
-  if (cells) { const c = center(cells); popConfetti(c); burst(c, ['#FFD27A', '#FFFFFF', '#FF8A3D'], 10, 46) }
+  if (cells) { const c = center(cells); popConfetti(c); burst(c, ['var(--sun)', '#FFFFFF', 'var(--go)'], 10, 46) }
   if (REDUCE) return
   ;[...$('#tray').querySelectorAll('.cb:not(.ph),.bar:not(.ghost),.bowl')].slice(0, 80).forEach((e, i) =>
     e.animate([{ transform: 'none' }, { transform: 'translateY(-8px) scale(1.06)', offset: 0.4 }, { transform: 'none' }], { duration: 420, delay: i * 14, easing: 'ease-out' }))

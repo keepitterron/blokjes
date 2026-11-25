@@ -1,0 +1,61 @@
+/*
+  Colour tokens. Each token is light-dark(light, dark), so a palette is one block.
+  To add a palette: copy a [data-palette] block below, add its id to PALETTES in src/core/progress.ts
+  and its name to `palettes` in src/i18n.ts.
+*/
+
+/* Fixed in every palette: the Montessori colour code (green ones, blue tens; red reserved for hundreds) and the wooden tray. */
+:root{
+  color-scheme:light dark;
+  --good:light-dark(#2C7F45,#7BD38E);--bad:light-dark(#B3261E,#FF8A80);
+  --wood:light-dark(#E6CFA6,#D2B587);--wood-edge:light-dark(#C9A874,#A88B5E);--wood-dark:light-dark(#A9875A,#7E6440);
+  --tray-ink:#5A4325;--tray-line:rgba(90,67,37,.32);
+  --one:#4FAE48;--one-d:#2E7A2A;--one-ink:light-dark(#2E7A2A,#94D886);--one-soft:light-dark(#E2F3DE,#25402A);
+  --ten:#3F86DB;--ten-d:#1F5BA6;--ten-ink:light-dark(#1F5BA6,#93C1F4);--ten-soft:light-dark(#DCEAFB,#21395A);
+  --pep:#A0662E;
+}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+
+/*
+  Palette tokens:
+  --bg … --spot  page surfaces and text
+  --go           accent (solid: borders, glows, current-step markers)
+  --go-fill      accent fill for buttons and the progress marker; may be a gradient
+  --go-edge      the pressed-button edge under --go-fill
+  --go-ink       text on --go-fill
+  --rv/-soft/-ink  review sums; must stay distinct from --go
+  --sun          second confetti colour
+  --page-art     background layer(s) under the page; none for a plain page
+*/
+:root,:root[data-palette="lavender"]{
+  --bg:light-dark(#F3F0FA,#1C1828);--ink:light-dark(#2C2440,#EEEAF7);--ink2:light-dark(#655D80,#AFA7C6);--line:light-dark(#DCD6EA,#3A3350);
+  --card:light-dark(#FFFFFF,#282338);--soft:light-dark(#E8E3F4,#312B44);--spot:light-dark(#E2DAF3,#4A4163);
+  --go:#FF8A3D;--go-fill:#FF8A3D;--go-edge:#D9692A;--go-ink:#3A1A00;
+  --rv:light-dark(#7B5BD0,#B39BF5);--rv-soft:light-dark(#E9E1FA,#3A2F5C);--rv-ink:#FFFFFF;
+  --sun:#FFD27A;
+  --page-art:none;
+}
+
+:root[data-palette="pink"]{
+  --bg:light-dark(#FFF0F6,#24151D);--ink:light-dark(#3D1A2C,#FCEAF2);--ink2:light-dark(#83546C,#CFA6BA);--line:light-dark(#F5D0E0,#4C2D3D);
+  --card:light-dark(#FFFFFF,#311D28);--soft:light-dark(#FCE1EC,#3D2533);--spot:light-dark(#F9D2E3,#5A3348);
+  --go:#FF6FA8;--go-fill:#FF6FA8;--go-edge:#D9477F;--go-ink:#3B0019;
+  --rv:light-dark(#7B5BD0,#B39BF5);--rv-soft:light-dark(#ECE3FB,#3A2F5C);--rv-ink:#FFFFFF;
+  --sun:#FFD27A;
+  /* polka dots */
+  --page-art:radial-gradient(circle,light-dark(rgba(255,111,168,.16),rgba(255,111,168,.12)) 2px,transparent 2.5px) 0 0/24px 24px;
+}
+
+:root[data-palette="unicorn"]{
+  --bg:light-dark(#F8F4FF,#1B1830);--ink:light-dark(#2E2350,#F1EDFF);--ink2:light-dark(#6B5F94,#B7ADD8);--line:light-dark(#E2D9F7,#3A3460);
+  --card:light-dark(#FFFFFF,#262242);--soft:light-dark(#EEE8FB,#302A50);--spot:light-dark(#FBE3F3,#463A6A);
+  --go:#B784FF;--go-fill:linear-gradient(100deg,#FF9ACB 0%,#C59BFF 50%,#86D3FF 100%);--go-edge:#8D5BD9;--go-ink:#2A1145;
+  --rv:light-dark(#0F7F7A,#6FE0DA);--rv-soft:light-dark(#DDF6F4,#1C3D3F);--rv-ink:light-dark(#FFFFFF,#0B2B2A);
+  --sun:#FFE27A;
+  /* pastel rainbow clouds */
+  --page-art:
+    radial-gradient(60% 45% at 0% 0%,light-dark(#FFE1F1,#3A2142) 0,transparent 70%),
+    radial-gradient(55% 45% at 100% 15%,light-dark(#DDF1FF,#1F3047) 0,transparent 70%),
+    radial-gradient(70% 45% at 40% 100%,light-dark(#E6FFF0,#1D3A30) 0,transparent 70%);
+}

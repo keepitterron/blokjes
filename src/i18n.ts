@@ -38,7 +38,8 @@ const en = {
   masteredLine:(n:number,f:number)=>`Mastered. ${n} sums so far, ${f} right first time.`,
   slips:{carry:'forgetting the carried ten',flip:'taking the smaller ones digit from the bigger one',keep:'forgetting the ten that was opened',added:'adding instead of multiplying',other:'other slips'},
   mostSlip:(s:string,n:number)=>`Most common slip: ${s} (${n} ${n===1?'time':'times'}).`,
-  days:['M','T','W','T','F','S','S'],woof:['Woof!','Bau!','Woef!','Wof?'],sound:'Sound',quit:'Stop for now'
+  days:['M','T','W','T','F','S','S'],woof:['Woof!','Bau!','Woef!','Wof?'],sound:'Sound',quit:'Stop for now',
+  palette:'Colours',palettes:{lavender:'Lavender',pink:'Pink',unicorn:'Unicorn'}
 }
 
 const nl: typeof en = {
@@ -80,7 +81,8 @@ const nl: typeof en = {
   masteredLine:(n:number,f:number)=>`Beheerst. ${n} sommen tot nu toe, ${f} in één keer goed.`,
   slips:{carry:'het extra tiental vergeten',flip:'de kleinste eenheid van de grootste afhalen',keep:'vergeten dat er een tiental is ingewisseld',added:'optellen in plaats van keer',other:'andere foutjes'},
   mostSlip:(s:string,n:number)=>`Meest voorkomende foutje: ${s} (${n} keer).`,
-  days:['M','D','W','D','V','Z','Z'],woof:['Woef!','Bau!','Woof!','Wof?'],sound:'Geluid',quit:'Stoppen'
+  days:['M','D','W','D','V','Z','Z'],woof:['Woef!','Bau!','Woof!','Wof?'],sound:'Geluid',quit:'Stoppen',
+  palette:'Kleuren',palettes:{lavender:'Lavendel',pink:'Roze',unicorn:'Eenhoorn'}
 }
 
 export const T = { en, nl }

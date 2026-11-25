@@ -1,4 +1,5 @@
 import './style.css'
+import { PALETTES } from './core/progress.ts'
 import { L, S, save } from './store.ts'
 import { $, nav } from './ui/dom.ts'
 import { renderDone } from './ui/done.ts'
@@ -15,6 +16,9 @@ if (now.getMonth() === 11 && now.getDate() === 5) document.body.classList.add('p
 function renderHeader() {
   document.documentElement.lang = S.lang
   for (const b of document.querySelectorAll<HTMLElement>('[data-lang]')) b.setAttribute('aria-pressed', String(b.dataset['lang'] === S.lang))
+  document.documentElement.dataset['palette'] = S.palette
+  $('#paletteBtn').setAttribute('aria-label', `${L().palette}: ${L().palettes[S.palette]}`)
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', getComputedStyle(document.body).backgroundColor)
   const sb = $('#soundBtn'); sb.innerHTML = S.sound ? ICON.on : ICON.off; sb.setAttribute('aria-label', L().sound); sb.setAttribute('aria-pressed', String(S.sound))
   $('#quit').setAttribute('aria-label', L().quit)
 }
@@ -29,6 +33,10 @@ function rerender() {
 for (const b of document.querySelectorAll<HTMLElement>('[data-lang]')) {
   b.addEventListener('click', () => { S.lang = b.dataset['lang'] === 'nl' ? 'nl' : 'en'; save(); renderHeader(); rerender() })
 }
+$('#paletteBtn').addEventListener('click', () => {
+  S.palette = PALETTES[(PALETTES.indexOf(S.palette) + 1) % PALETTES.length]!
+  save(); renderHeader(); SND.pop()
+})
 $('#soundBtn').addEventListener('click', () => { S.sound = !S.sound; save(); renderHeader(); SND.tap() })
 initSession()
 renderHeader()

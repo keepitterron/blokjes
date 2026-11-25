@@ -3,6 +3,10 @@ import { pick, SK, type Problem, type Rand, type SkillId, type Slip } from './sk
 export type Lang = 'en' | 'nl'
 export type Stage = 1 | 2 | 3
 
+/** Colour palettes, defined in src/themes.css. The first is the default. */
+export const PALETTES = ['lavender', 'pink', 'unicorn'] as const
+export type Palette = (typeof PALETTES)[number]
+
 export interface SkillState {
   stage: Stage
   streak: number
@@ -19,6 +23,7 @@ export interface TimeEntry { s: Stage; t: number; d: string }
 /** Everything persisted under localStorage 'blokjes-v1'. */
 export interface Data {
   lang: Lang
+  palette: Palette
   sound: boolean
   skills: Record<SkillId, SkillState>
   days: string[]
@@ -36,6 +41,7 @@ export function repair(raw: unknown, defaultLang: Lang): Data {
   const skills = isObj(d['skills']) ? d['skills'] : {}
   return {
     lang: d['lang'] === 'nl' || d['lang'] === 'en' ? d['lang'] : defaultLang,
+    palette: PALETTES.find(p => p === d['palette']) ?? PALETTES[0],
     sound: d['sound'] !== false,
     skills: Object.fromEntries(SK.map(s => [s.id, { ...blankSkill(), ...(isObj(skills[s.id]) ? skills[s.id] as object : {}) }])) as Record<SkillId, SkillState>,
     days: Array.isArray(d['days']) ? d['days'] : [],

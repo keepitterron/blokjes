@@ -28,7 +28,7 @@ export function renderGrown() {
     const top = Object.entries(k.err).toSorted((a, b) => b[1] - a[1])[0]
     const slipLine = top ? `<p>${l.mostSlip(l.slips[top[0] as keyof typeof l.slips] ?? l.slips.other, top[1])}</p>` : ''
     const isCur = cur?.id === s.id
-    return `<div class="gcard"><span class="opt f" style="${isCur ? 'background:var(--go);color:var(--go-ink)' : k.mastered ? 'background:var(--one);color:#0F3A0C' : ''}">${s.op}</span>
+    return `<div class="gcard"><span class="opt f" style="${isCur ? 'background:var(--go-fill);color:var(--go-ink)' : k.mastered ? 'background:var(--one);color:#0F3A0C' : ''}">${s.op}</span>
       <div class="gtext"><div class="pname">${skName(s.id)}</div><p>${line}</p>${slipLine}${timeLine(s.id)}</div>
       ${isCur ? `<span class="chip">${l.current}</span>` : `<button class="btn quiet sm" data-here="${s.id}">${l.startHere}</button>`}</div>`
   }).join('')
