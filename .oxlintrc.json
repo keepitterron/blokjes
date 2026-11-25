@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "import"],
+  "categories": { "correctness": "error", "suspicious": "warn" },
+  "rules": {
+    "typescript/no-floating-promises": "error",
+    "import/no-unassigned-import": ["warn", { "allow": ["**/*.css"] }]
+  },
+  "ignorePatterns": ["dist", "docs"],
+  "overrides": [
+    {
+      "files": ["src/core/**"],
+      "rules": {
+        "no-restricted-imports": ["error", { "patterns": [{ "group": ["**/ui/**", "**/store*", "**/i18n*"], "message": "src/core is pure logic: no UI, storage or strings." }] }],
+        "no-restricted-globals": ["error", "window", "document", "localStorage", "navigator"]
+      }
+    },
+    {
+      "files": ["tests/**"],
+      "rules": { "unicorn/consistent-function-scoping": "off" }
+    }
+  ]
+}

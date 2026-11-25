@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3F0FA">
+<title>Blokjes</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<div class="app">
+  <header class="top" id="topbar">
+    <div class="brand f">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="3" width="9" height="26" rx="2" fill="#3F86DB"/><rect x="17" y="18" width="11" height="11" rx="2.5" fill="#4FAE48"/></svg>
+      Blokjes
+    </div>
+    <div class="toggles">
+      <div class="seg" role="group" aria-label="Language">
+        <button data-lang="en" aria-pressed="true">EN</button>
+        <button data-lang="nl" aria-pressed="false">NL</button>
+      </div>
+      <button class="icon-btn" id="soundBtn" aria-label="Sound"></button>
+    </div>
+  </header>
+
+  <section id="home"></section>
+
+  <section id="session" hidden>
+    <div class="sbar">
+      <button class="icon-btn" id="quit" aria-label="Stop for now"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div class="prog" id="prog"></div>
+      <div class="dogwrap sdog dog" id="sdog"></div>
+    </div>
+    <div class="sess">
+      <div class="slabel"><b id="skillName"></b><span class="chip" id="stageChip"></span></div>
+      <div class="eq f" id="eq"></div>
+      <div class="tray" id="tray"></div>
+      <div class="msg" id="msg" aria-live="polite"></div>
+      <div class="padw"><div class="pad" id="pad"></div><button class="btn next" id="next" hidden></button></div>
+    </div>
+  </section>
+
+  <section id="done" class="done" hidden></section>
+  <section id="grown" hidden></section>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
