@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { blankSkill, grade, planSession, queueMissed, repair, startHere, type TimeEntry } from '../src/core/progress.ts'
 import { fill, gen, slip, SK, type SkillId } from '../src/core/skills.ts'
-import { quicker, timeSummary } from '../src/core/speed.ts'
+import { hasRecord, quicker, record, timeSummary, zoom } from '../src/core/speed.ts'
 
 const many = (skill: SkillId) => Array.from({ length: 2000 }, () => gen(skill))
 
@@ -155,6 +155,21 @@ describe('speed', () => {
     expect(timeSummary([])).toBeNull()
     const s = timeSummary([e(10, 'a'), e(20, 'a'), e(30, 'b')])
     expect(s).toEqual({ stage: 3, last: 20, n: 3, prev: null, daily: [15, 30] })
+  })
+  const five = [e(20, 'a'), e(16, 'a'), e(24, 'a'), e(20, 'a'), e(18, 'a')]
+  it('zooms a quarter under her usual, after 5 sums at the same stage', () => {
+    expect(zoom(five, e(15, 'b'))).toBe(true)
+    expect(zoom(five, e(16, 'b'))).toBe(false)
+    expect(zoom(five.slice(1), e(5, 'b'))).toBe(false)
+    expect(zoom(five, { s: 2, t: 5, d: 'b' })).toBe(false)
+  })
+  it('sets a record only when the whole seconds beat her best', () => {
+    expect(record(five, e(15, 'b'))).toEqual({ now: 15, before: 16 })
+    expect(record(five, e(15.6, 'b'))).toBeNull()
+    expect(record(five.slice(1), e(2, 'b'))).toBeNull()
+    expect(record([...five.slice(0, 4), e(0.4, 'a')], e(0.3, 'b'))).toBeNull()
+    expect(hasRecord(five)).toBe(false)
+    expect(hasRecord([...five, e(15, 'b')])).toBe(true)
   })
 })
 

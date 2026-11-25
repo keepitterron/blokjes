@@ -68,7 +68,7 @@ button{font:inherit;color:inherit}
 .today .acts{display:flex;gap:10px;flex-wrap:wrap}
 .week{display:flex;gap:8px;margin:22px 0 28px;align-items:center;flex-wrap:wrap}
 .week .lbl{color:var(--ink2);font-size:15px;margin-right:6px}
-.day{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:700;background:var(--soft);color:var(--ink2)}
+.day{position:relative;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:700;background:var(--soft);color:var(--ink2)}
 .day.on{background:var(--one);color:#0F3A0C}
 .day.today{box-shadow:inset 0 0 0 2px var(--ink2)}
 .path{list-style:none;margin:0;padding:0;display:grid;gap:10px}
@@ -213,6 +213,18 @@ body.pakjes .cb.o{--c:#A0662E;--cl:#D8A066;--cd:#7E4C1F;--cdd:#5E3714;border-rad
 @keyframes pop{0%{transform:scale(1.35)}60%{transform:scale(.93)}100%{transform:scale(1)}}
 @keyframes shake{25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
 @keyframes nudge{50%{transform:scale(1.04)}}
+.zap{position:fixed;z-index:80;width:62px;height:62px;pointer-events:none;filter:drop-shadow(2.5px 0 0 #FFF) drop-shadow(-2.5px 0 0 #FFF) drop-shadow(0 2.5px 0 #FFF) drop-shadow(0 -2.5px 0 #FFF) drop-shadow(3px 4px 0 rgba(21,19,24,.5))}
+.zap svg{width:100%;height:100%}
+.dog.dash svg{animation:dash .75s cubic-bezier(.3,.7,.3,1)}
+@keyframes dash{0%{transform:none}25%{transform:translateX(-10px) skewX(14deg)}55%{transform:translateX(6px) skewX(-10deg) translateY(-6px)}100%{transform:none}}
+.bolt{display:inline-block;width:18px;height:18px;vertical-align:-3px}
+.bolt svg{width:100%;height:100%;display:block}
+.day .bolt{position:absolute;top:-8px;right:-7px;width:16px;height:16px}
+.speed{list-style:none;padding:0;margin:18px auto 0;max-width:440px;display:grid;gap:8px}
+.speed li{display:flex;gap:12px;align-items:center;text-align:left;font-weight:700;padding:12px 14px;border-radius:16px;background:#FFF3B0;color:#151318;border:2.5px solid #151318;box-shadow:3px 3px 0 #151318}
+.speed li .bolt{width:32px;height:32px;flex:none}
+.speed li.rec{animation:pop .5s ease-out .5s backwards}
+.speed+.notes{margin-top:10px}
 .land{animation:land .42s ease-out}
 @keyframes land{0%{transform:scale(1.22,.72)}40%{transform:scale(.9,1.12)}70%{transform:scale(1.04,.97)}100%{transform:none}}
 

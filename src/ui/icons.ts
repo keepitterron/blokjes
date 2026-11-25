@@ -5,5 +5,6 @@ export const ICON = {
   erase: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H9l-6 7 6 7h12V5z"/><path d="M17 9l-5 6M12 9l5 6"/></svg>',
   back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
   review: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.6-4.5M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.6 4.5M20 20v-4h-4"/></svg>',
+  bolt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2 4.5 13.5h6L9 22l10-12.5h-6.2L13.5 2z" fill="#FFD23F" stroke="#151318" stroke-width="1.8" stroke-linejoin="round"/></svg>',
   bone: '<svg viewBox="0 0 24 24"><g fill="#FFFFFF" transform="rotate(-35 12 12)"><rect x="7" y="10.2" width="10" height="3.6" rx="1.8"/><circle cx="6.8" cy="9.6" r="2.5"/><circle cx="6.8" cy="14.4" r="2.5"/><circle cx="17.2" cy="9.6" r="2.5"/><circle cx="17.2" cy="14.4" r="2.5"/></g></svg>',
 }

@@ -67,17 +67,20 @@ Slips that get a specific message:
 - `added`: she added instead of multiplying (a + b).
 - `other`: anything else.
 
-## Speed tracking (background only)
+## Speed
 
-- **What's timed.** Active time is measured per sum: the gap between interactions is capped at 30 s, and time away from the app is excluded. Only sums right first time are stored, as `{s: stage, t: seconds, d: date}`, keeping the last 80 per skill.
-- **What she sees.** Nothing during the session. At the end, a positive note appears only if she was quicker than before: today's median is at least 10% below the median of up to 15 earlier sums at the same stage, with at least 3 sums on each side.
+- **What's timed.** Active time is measured per sum: the gap between interactions is capped at 30 s, and time away from the app is excluded. Only sums right first time are stored, as `{s: stage, t: seconds, d: date}`, keeping the last 80 per skill. Speed is only ever celebrated, never mentioned when she is slow, and there is no visible clock.
+- **During the session.** A first-time sum that is at least a quarter quicker than her usual (the median of up to 15 earlier sums at the same stage), or a new record, gets a "zoom": a lightning bolt slams onto the answer cells, Spartacus dashes, a quick rising sound plays and the praise becomes "Zoom!", "Lightning fast!" and the like. Both need at least 5 earlier sums at that stage, so Build times are never compared with Numbers times.
+- **Records.** Her best time per skill and stage, in whole seconds. A sum beats it only when its rounded time is lower.
+- **Done.** Records and "quicker than before" lines appear as yellow lightning cards above the other notes. Quicker than before means today's median is at least 10% below the median of up to 15 earlier sums at the same stage, with at least 3 sums on each side.
+- **Home.** A lightning bolt beside a skill in her path once she has set a record there, and on each day this week she got quicker at any skill.
 - **For grown-ups.** Each skill shows the median of the last 10 sums at the current stage compared with the 10 before, plus a sparkline of daily medians.
 
 ## Screens
 
 - **Home.** A greeting ("Ciao, Zoë"), today's practice card (Start, or "Another round" once done today), the days practised this week, the skill path with stage pips, and a link to the grown-ups view.
 - **Session.** A quit button, the progress bar (with review slots outlined in purple) and Spartacus; then the skill label and stage chip; the sum and answer cells; the tray; a message line; and the pad. On a phone, everything fits on one screen. From 860 px wide, the pad moves to a right-hand column.
-- **Done.** Spartacus, a summary of first-time answers, notes (stage changes, mastery, speed), and full-screen confetti for a perfect session.
+- **Done.** Spartacus, a summary of first-time answers, speed cards (records, quicker than before), notes (stage changes, mastery), and full-screen confetti for a perfect session.
 - **For grown-ups.** For each skill: stage, number of sums, number right first time, most common slip, and the timing line. Two-tap "Start here" sets the level (earlier skills are marked mastered, later ones reset). There is also a two-tap reset of all progress.
 
 ## Review sums

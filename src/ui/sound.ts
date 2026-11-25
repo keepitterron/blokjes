@@ -19,5 +19,6 @@ export const SND = {
   pop: () => tone(760, 0.05, 'sine', 0.06),
   good: () => { tone(523, 0.12, 'triangle', 0.07); tone(659, 0.12, 'triangle', 0.07, 0.1); tone(784, 0.2, 'triangle', 0.07, 0.2) },
   soft: () => { tone(330, 0.18, 'sine', 0.06); tone(294, 0.24, 'sine', 0.06, 0.14) },
+  zoom: () => { [784, 988, 1319, 1568].forEach((f, i) => tone(f, 0.09, 'triangle', 0.06, 0.32 + i * 0.045)) },
   done: () => { [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.22, 'triangle', 0.07, i * 0.12)) },
 }

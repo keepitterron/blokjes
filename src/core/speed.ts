@@ -36,3 +36,23 @@ export function timeSummary(entries: readonly TimeEntry[]): { stage: Stage; last
     daily: days.map(d => median(same.filter(e => e.d === d).map(e => e.t))),
   }
 }
+
+/** At least 5 earlier sums at a stage before speed is celebrated there. */
+const HISTORY = 5
+
+/** A "zoom" sum: at least a quarter quicker than her usual (median of up to 15 earlier sums at the same stage). */
+export function zoom(before: readonly TimeEntry[], e: TimeEntry): boolean {
+  const same = before.filter(x => x.s === e.s).slice(-15)
+  return same.length >= HISTORY && e.t <= median(same.map(x => x.t)) * 0.75
+}
+
+/** A new personal best at this stage, in whole seconds (at least 1), with the best it beat. */
+export function record(before: readonly TimeEntry[], e: TimeEntry): { now: number; before: number } | null {
+  const same = before.filter(x => x.s === e.s)
+  if (same.length < HISTORY) return null
+  const best = Math.max(1, Math.round(Math.min(...same.map(x => x.t)))), now = Math.max(1, Math.round(e.t))
+  return now < best ? { now, before: best } : null
+}
+
+/** Whether any stored sum set a record. */
+export const hasRecord = (entries: readonly TimeEntry[]) => entries.some((e, i) => record(entries.slice(0, i), e) !== null)

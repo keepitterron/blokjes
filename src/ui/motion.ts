@@ -1,5 +1,6 @@
 import { ri } from '../core/skills.ts'
 import { $, q } from './dom.ts'
+import { ICON } from './icons.ts'
 
 export const REDUCE = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 export const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms))
@@ -77,4 +78,27 @@ export function cheer() {
   if (REDUCE) return
   ;[...$('#tray').querySelectorAll('.cb:not(.ph),.bar:not(.ghost),.bowl')].slice(0, 80).forEach((e, i) =>
     e.animate([{ transform: 'none' }, { transform: 'translateY(-8px) scale(1.06)', offset: 0.4 }, { transform: 'none' }], { duration: 420, delay: i * 14, easing: 'ease-out' }))
+}
+
+/** A quick sum: a lightning bolt slams onto the answer cells and Spartacus dashes. */
+export function zap() {
+  const cells = q('#eq .cells'), dog = q('#sdog')
+  if (!cells) return
+  const r = cells.getBoundingClientRect(), b = document.createElement('div')
+  b.className = 'zap'; b.innerHTML = ICON.bolt
+  b.style.left = r.right - 30 + 'px'; b.style.top = r.top - 34 + 'px'
+  document.body.appendChild(b)
+  dog?.classList.remove('dash'); void dog?.offsetWidth; dog?.classList.add('dash')
+  setTimeout(() => dog?.classList.remove('dash'), 800)
+  if (REDUCE) { setTimeout(() => b.remove(), 1400); return }
+  setTimeout(() => burst(center(b), ['#FFD23F', '#FFFFFF', '#151318'], 10, 38), 330)
+  b.animate([
+    { transform: 'translate(40px,-60px) scale(2.4) rotate(-30deg)', opacity: 0 },
+    { transform: 'translate(40px,-60px) scale(2.4) rotate(-30deg)', opacity: 1, offset: 0.12 },
+    { transform: 'translate(0,0) scale(.85) rotate(12deg)', opacity: 1, offset: 0.3 },
+    { transform: 'translate(0,0) scale(1.15) rotate(-6deg)', opacity: 1, offset: 0.4 },
+    { transform: 'translate(0,0) scale(1) rotate(8deg)', opacity: 1, offset: 0.5 },
+    { transform: 'translate(0,0) scale(1) rotate(8deg)', opacity: 1, offset: 0.85 },
+    { transform: 'translate(0,-8px) scale(1.1) rotate(8deg)', opacity: 0 },
+  ], { duration: 1700, easing: 'cubic-bezier(.3,.7,.3,1)', fill: 'forwards' }).onfinish = () => b.remove()
 }

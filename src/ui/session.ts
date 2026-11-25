@@ -1,7 +1,7 @@
 // The practice session: sum loading, the tray and its moves, answer entry and grading.
 import { currentSkill, grade, iso, planSession, queueMissed, recordDay, recordTime, SESSION_LENGTH, type Change, type Result, type Slot, type Stage } from '../core/progress.ts'
 import { gen, pick, SK, slip, type Problem, type Slip } from '../core/skills.ts'
-import { quicker } from '../core/speed.ts'
+import { quicker, record, zoom } from '../core/speed.ts'
 import { L, S, save, skName } from '../store.ts'
 import { BAR, barsHTML, CUBE, divHTML, framesHTML, matPV, mulHTML, rowCubes, trackFrame, trackTens } from './blocks.ts'
 import { $, nav, q, qa, show } from './dom.ts'
@@ -9,7 +9,7 @@ import { renderDone } from './done.ts'
 import { dogSVG, mood, petDog } from './dog.ts'
 import { renderHome } from './home.ts'
 import { ICON } from './icons.ts'
-import { burst, center, cheer, fly, GREENS, landAt, MIX, REDUCE, wait } from './motion.ts'
+import { burst, center, cheer, fly, GREENS, landAt, MIX, REDUCE, wait, zap } from './motion.ts'
 import { SND } from './sound.ts'
 
 type Current = Problem & { review: boolean; stage: Stage }
@@ -23,7 +23,9 @@ interface Build {
   popBar?: boolean; popRow?: boolean; popBowl?: boolean; unfold?: number | undefined
 }
 
-interface Sess { plan: Slot[]; i: number; first: number; marks: ('' | 'done' | 'miss')[]; notes: string[]; seen: Set<string> }
+/** A record set this session: the best it beat when first broken, and the newest time. */
+interface Rec { skill: Problem['skill']; stage: Stage; now: number; before: number }
+interface Sess { plan: Slot[]; i: number; first: number; marks: ('' | 'done' | 'miss')[]; notes: string[]; records: Rec[]; seen: Set<string> }
 
 let sess: Sess
 let P: Current
@@ -44,7 +46,7 @@ function initBuild(): Build {
 export function startSession() {
   const plan = planSession(S)
   save()
-  sess = { plan, i: 0, first: 0, marks: Array<''>(SESSION_LENGTH).fill(''), notes: [], seen: new Set() }
+  sess = { plan, i: 0, first: 0, marks: Array<''>(SESSION_LENGTH).fill(''), notes: [], records: [], seen: new Set() }
   show('session')
   $('#sdog').innerHTML = dogSVG()
   loadProblem()
@@ -356,9 +358,10 @@ function check() {
     if (result === 'first') sess.first++
     sess.marks[sess.i] = 'done'
     const note = noteFor(grade(S.skills[P.skill], result, P.review)); if (note) sess.notes.push(note)
-    setMsg(`${pick(l.praise)}${note ? `<span class="note">${note}</span>` : ''}`, 'good')
+    const fast = result === 'first' && timeFirst()
+    setMsg(`${pick(fast ? l.zoom : l.praise)}${note ? `<span class="note">${note}</span>` : ''}`, 'good')
     mood($('#sdog'), 'happy', 1800); SND.good(); cheer()
-    if (result === 'first') recordTime(S, P.skill, { s: P.stage, t: Math.round(tAct / 100) / 10, d: iso(new Date()) })
+    if (fast) { zap(); SND.zoom() }
     ps.locked = true
     clearTimeout(idleT)
     advT = window.setTimeout(() => { if (nav.screen === 'session' && finished) nextProblem() }, 1900)
@@ -384,6 +387,18 @@ function check() {
   save(); renderProg(); renderEq(); renderPad()
 }
 
+/** Stores a first-try time. True when it was quick enough to celebrate (a zoom or a new record). */
+function timeFirst() {
+  const e = { s: P.stage, t: Math.round(tAct / 100) / 10, d: iso(new Date()) }, before = S.times[P.skill] ?? []
+  const z = zoom(before, e), rec = record(before, e)
+  recordTime(S, P.skill, e)
+  if (rec) {
+    const r = sess.records.find(x => x.skill === P.skill && x.stage === P.stage)
+    if (r) r.now = rec.now; else sess.records.push({ skill: P.skill, stage: P.stage, ...rec })
+  }
+  return z || !!rec
+}
+
 function nextProblem() {
   clearTimeout(advT); clearTimeout(chkT); SND.tap()
   sess.i++
@@ -393,11 +408,12 @@ function nextProblem() {
 function endSession() {
   const today = iso(new Date())
   recordDay(S, today)
+  const l = L(), speed = sess.records.map(r => ({ text: l.record(skName(r.skill), l.stages[r.stage - 1]!, r.now, r.before), rec: true }))
   for (const k of SK) {
     const qk = quicker(S.times[k.id] ?? [], today)
-    if (qk) sess.notes.push(L().quicker(skName(k.id), qk.now, qk.before))
+    if (qk) speed.push({ text: l.quicker(skName(k.id), qk.now, qk.before), rec: false })
   }
-  save(); show('done'); renderDone(true, { first: sess.first, notes: sess.notes })
+  save(); show('done'); renderDone(true, { first: sess.first, notes: sess.notes, speed })
 }
 
 /* idle: Spartacus naps after 45 s */
