@@ -2,9 +2,12 @@
   Colour tokens. Each token is light-dark(light, dark), so a palette is one block.
   To add a palette: copy a [data-palette] block below, add its id to PALETTES in src/core/progress.ts
   and its name to `palettes` in src/i18n.ts.
-  A palette can also restyle surfaces and the blocks' finish (see squiggles). Blocks keep their colours:
-  ones green, tens blue. Rules that restyle blocks use :where() for the palette so the Picture stage
-  (.pic) still wins. This file loads after style.css (see main.ts), so its rules override the base ones.
+  Palette blocks match any element, not just :root, so the swatches on the home screen preview their own palette.
+  A palette can also restyle surfaces and the blocks' finish. Sticker palettes (squiggles, sprinkles, fruit,
+  galaxy) put everything that sits on the page on an outlined card with a hard shadow; add a new one to the
+  sticker list below. Blocks keep their colours: ones green, tens blue. Rules that restyle blocks use :where()
+  for the palette so the Picture stage (.pic) still wins. This file loads after style.css (see main.ts), so its
+  rules override the base ones.
 */
 
 /* Fixed in every palette: the Montessori colour code (green ones, blue tens; red reserved for hundreds) and the wooden tray. */
@@ -16,7 +19,6 @@
   --one:#4FAE48;--one-d:#2E7A2A;--one-ink:light-dark(#2E7A2A,#94D886);--one-soft:light-dark(#E2F3DE,#25402A);
   --ten:#3F86DB;--ten-d:#1F5BA6;--ten-ink:light-dark(#1F5BA6,#93C1F4);--ten-soft:light-dark(#DCEAFB,#21395A);
   --pep:#A0662E;
-  --swatch:var(--go-fill);
 }
 :root[data-theme="light"]{color-scheme:light}
 :root[data-theme="dark"]{color-scheme:dark}
@@ -31,9 +33,11 @@
   --rv/-soft/-ink  review sums; must stay distinct from --go
   --sun          second confetti colour
   --page-art     background layer(s) under the page; none for a plain page
-  --swatch       the palette button's preview (defaults to --go-fill)
+  --pop          hard shadow under stickers (sticker palettes)
+  --tag/-ink     the tilted label behind home-screen headings (sticker palettes)
+  --line-ink     text on --line, when --card isn't readable there (defaults to --card)
 */
-:root,:root[data-palette="lavender"]{
+:root,[data-palette="lavender"]{
   --bg:light-dark(#F3F0FA,#1C1828);--ink:light-dark(#2C2440,#EEEAF7);--ink2:light-dark(#655D80,#AFA7C6);--line:light-dark(#DCD6EA,#3A3350);
   --card:light-dark(#FFFFFF,#282338);--soft:light-dark(#E8E3F4,#312B44);--spot:light-dark(#E2DAF3,#4A4163);
   --go:#FF8A3D;--go-fill:#FF8A3D;--go-edge:#D9692A;--go-ink:#3A1A00;
@@ -42,7 +46,7 @@
   --page-art:none;
 }
 
-:root[data-palette="pink"]{
+[data-palette="pink"]{
   --bg:light-dark(#FFF0F6,#24151D);--ink:light-dark(#3D1A2C,#FCEAF2);--ink2:light-dark(#83546C,#CFA6BA);--line:light-dark(#F5D0E0,#4C2D3D);
   --card:light-dark(#FFFFFF,#311D28);--soft:light-dark(#FCE1EC,#3D2533);--spot:light-dark(#F9D2E3,#5A3348);
   --go:#FF6FA8;--go-fill:#FF6FA8;--go-edge:#D9477F;--go-ink:#3B0019;
@@ -52,7 +56,7 @@
   --page-art:radial-gradient(circle,light-dark(rgba(255,111,168,.16),rgba(255,111,168,.12)) 2px,transparent 2.5px) 0 0/24px 24px;
 }
 
-:root[data-palette="unicorn"]{
+[data-palette="unicorn"]{
   --bg:light-dark(#F8F4FF,#1B1830);--ink:light-dark(#2E2350,#F1EDFF);--ink2:light-dark(#6B5F94,#B7ADD8);--line:light-dark(#E2D9F7,#3A3460);
   --card:light-dark(#FFFFFF,#262242);--soft:light-dark(#EEE8FB,#302A50);--spot:light-dark(#FBE3F3,#463A6A);
   --go:#B784FF;--go-fill:linear-gradient(100deg,#FF9ACB 0%,#C59BFF 50%,#86D3FF 100%);--go-edge:#8D5BD9;--go-ink:#2A1145;
@@ -66,7 +70,7 @@
 }
 
 /* Black squiggles on a rainbow, with comic-book outlines on cards, buttons and blocks. */
-:root[data-palette="squiggles"]{
+[data-palette="squiggles"]{
   --bg:light-dark(#FF6B8B,#7A1F3D);--ink:light-dark(#151318,#F6F2FA);--ink2:light-dark(#423D4A,#CBC4D8);--line:#151318;
   --card:light-dark(#FFFFFF,#1F1B26);--soft:light-dark(#F3EFF8,#2F2A38);--spot:light-dark(#FFF3B0,#3B3421);
   --go:#FF2E88;--go-fill:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20' fill='none' stroke='rgba(0,0,0,.13)' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M4 10q6-9 12 0t12 0t12 0'/%3E%3C/svg%3E") 0 0/34px 17px,#FFD23F;--go-edge:#151318;--go-ink:#151318;
@@ -74,37 +78,79 @@
   --sun:#22C7F0;
   --rainbow:linear-gradient(160deg,light-dark(#FF6B8B,#7A1F3D) 0%,light-dark(#FF9F45,#7A3F10) 20%,light-dark(#FFE14D,#6E5E0E) 40%,light-dark(#63DB8B,#155E38) 60%,light-dark(#4FC3F7,#134E78) 80%,light-dark(#A47BFF,#3F2A80) 100%);
   --page-art:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='black' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 34q9-13 18 0t18 0t18 0t18 0'/%3E%3Cpath d='M128 22l11 14l11-14l11 14l11-14l11 14'/%3E%3Cpath d='M196 74c18-6 24 18 8 22c-12 3-14-12-3-13'/%3E%3Cpath d='M36 92q13 9 0 18t0 18t0 18t0 18'/%3E%3Cpath d='M86 112c10-22 34-22 30 0c-3 16-22 6-12-6c10-12 28-6 34 8'/%3E%3Cpath d='M150 156q9-13 18 0t18 0t18 0'/%3E%3Cpath d='M24 206l10-12l10 12l10-12l10 12'/%3E%3Cpath d='M118 196c-14-2-16 18-2 20c12 2 14-14 4-14'/%3E%3Cpath d='M214 188q-13 9 0 18t0 18'/%3E%3Ccircle cx='100' cy='44' r='4.5' fill='black' stroke='none'/%3E%3Ccircle cx='186' cy='118' r='4.5' fill='black' stroke='none'/%3E%3Ccircle cx='70' cy='170' r='4.5' fill='black' stroke='none'/%3E%3Ccircle cx='228' cy='22' r='4.5' fill='black' stroke='none'/%3E%3Ccircle cx='160' cy='224' r='4.5' fill='black' stroke='none'/%3E%3C/svg%3E") 0 0/240px 240px,var(--rainbow);
-  --swatch:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20' fill='none' stroke='black' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M4 10q6-9 12 0t12 0t12 0'/%3E%3C/svg%3E") center/78% no-repeat,conic-gradient(#FF6B8B,#FF9F45,#FFE14D,#63DB8B,#4FC3F7,#A47BFF,#FF6B8B);
+  --pop:#151318;--tag:#151318;--tag-ink:#FF8FB0;--line-ink:#FFFFFF;
 }
-/* Anything that sits straight on the page gets a white sticker, so text never runs over the squiggles. */
-:root[data-palette="squiggles"] :is(.brand,.hero,#home>.today,.week,.path li,.gcard,.notes li,.prog,.slabel,.eq,.msg,.backrow,.gintro,#done>h1,#done>p){
-  background:var(--card);border:3px solid var(--line);box-shadow:4px 4px 0 var(--line)}
-:root[data-palette="squiggles"] :is(.brand,.hero,.week,.slabel,.eq,.backrow,.gintro,#done>h1,#done>p){width:fit-content;max-width:100%}
-:root[data-palette="squiggles"] .hero{border-radius:28px;padding:12px 22px 12px 12px}
-:root[data-palette="squiggles"] .brand{border-radius:14px;padding:3px 12px 3px 8px}
-:root[data-palette="squiggles"] .week{border-radius:18px;padding:8px 14px 12px;gap:6px}
-:root[data-palette="squiggles"] .week .lbl{flex-basis:100%}
-:root[data-palette="squiggles"] #home>h2{display:inline-block;background:#151318;color:#FF8FB0;padding:3px 14px;border-radius:12px;transform:rotate(-2deg)}
-:root[data-palette="squiggles"] .path li{border-radius:20px}
-:root[data-palette="squiggles"] .path li.lock{opacity:1}
-:root[data-palette="squiggles"] .path li.lock>*{opacity:.5}
-:root[data-palette="squiggles"] .path li.cur{border-color:var(--go);box-shadow:5px 5px 0 var(--go)}
-:root[data-palette="squiggles"] .gcard,:root[data-palette="squiggles"] .notes li{border-radius:18px}
-:root[data-palette="squiggles"] .prog{padding:5px;border-radius:12px}
-:root[data-palette="squiggles"] .slabel{padding:2px 12px;border-radius:999px}
-:root[data-palette="squiggles"] .eq{justify-self:center;padding:8px 16px;border-radius:22px}
-:root[data-palette="squiggles"] .msg{border-radius:16px;padding:8px 12px}
-:root[data-palette="squiggles"] .backrow{padding:6px 16px 6px 6px;border-radius:18px}
-:root[data-palette="squiggles"] .gintro{padding:8px 14px;border-radius:16px}
-:root[data-palette="squiggles"] #done>h1,:root[data-palette="squiggles"] #done>p{margin-inline:auto;padding:4px 16px;border-radius:16px}
-:root[data-palette="squiggles"] #done>h1{margin-bottom:12px}
-:root[data-palette="squiggles"] :is(.icon-btn,.seg,.dogwrap,.opt,.day,.bubble){border:2.5px solid var(--line)}
-:root[data-palette="squiggles"] .seg button[aria-pressed="true"]{background:var(--line);color:var(--card)}
-:root[data-palette="squiggles"] .btn{border:3px solid var(--line)}
-:root[data-palette="squiggles"] .btn:active{transform:translateY(3px) rotate(-1.5deg)}
-:root[data-palette="squiggles"] .pad button{border:2.5px solid var(--line)}
-:root[data-palette="squiggles"] .tray{outline:3px solid var(--line);outline-offset:0}
-/* Blocks: flat colour, black outline, a cartoon shine and a hard shadow. */
+/* Sprinkles (hagelslag): rainbow sprinkles on vanilla, or on chocolate in the dark. */
+[data-palette="sprinkles"]{
+  --bg:light-dark(#FFF4DC,#3A2318);--ink:light-dark(#3A2015,#FFF1DD);--ink2:light-dark(#7A5644,#D9BBA2);--line:light-dark(#4A2A1C,#FFE2BC);
+  --card:light-dark(#FFFFFF,#4A2E20);--soft:light-dark(#FDEBD0,#5A3A29);--spot:light-dark(#FFE0EE,#6A4030);
+  --go:#FF4FA3;--go-fill:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24' fill='none' stroke='rgba(255,255,255,.42)' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 5l4 3M17 17l5-2M27 4l2 5M35 16l3-3'/%3E%3C/svg%3E") 0 0/40px 24px,#FF4FA3;--go-edge:#B81F66;--go-ink:#3B0019;
+  --rv:light-dark(#6B3FD6,#B49BFF);--rv-soft:light-dark(#ECE4FF,#4A3060);--rv-ink:light-dark(#FFFFFF,#1E0F33);
+  --sun:#2FA8FF;
+  --pop:#FF4FA3;--tag:light-dark(#4A2A1C,#FF4FA3);--tag-ink:light-dark(#FFC8E3,#3B0019);
+  --page-art:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M1.1 74.5L-1.1 86.3' stroke='%23FF4FA3'/%3E%3Cpath d='M181.1 74.5L178.9 86.3' stroke='%23FF4FA3'/%3E%3Cpath d='M60.6 4.2L51.6 12.1' stroke='%232FA8FF'/%3E%3Cpath d='M60.6 184.2L51.6 192.1' stroke='%232FA8FF'/%3E%3Cpath d='M160.1 70.6L149.7 76.5' stroke='%23FFC531'/%3E%3Cpath d='M97.2 79.7L89.1 88.6' stroke='%233DCB6C'/%3E%3Cpath d='M84.7 44.7L85.3 56.7' stroke='%239B6BFF'/%3E%3Cpath d='M43.7 124.3L34.9 132.5' stroke='%23FF7A2F'/%3E%3Cpath d='M21.7 63.7L28.9 73.2' stroke='%23FF4FA3'/%3E%3Cpath d='M111 145.6L100.8 152' stroke='%232FA8FF'/%3E%3Cpath d='M5.3 29.7L-1.1 39.8' stroke='%23FFC531'/%3E%3Cpath d='M185.3 29.7L178.9 39.8' stroke='%23FFC531'/%3E%3Cpath d='M22.6 106.8L12.3 113' stroke='%233DCB6C'/%3E%3Cpath d='M-5.6 52L-9.2 63.4' stroke='%239B6BFF'/%3E%3Cpath d='M174.4 52L170.8 63.4' stroke='%239B6BFF'/%3E%3Cpath d='M158.2 -1.1L166.3 7.8' stroke='%23FF7A2F'/%3E%3Cpath d='M158.2 178.9L166.3 187.8' stroke='%23FF7A2F'/%3E%3Cpath d='M123.8 142.6L134.4 148.3' stroke='%23FF4FA3'/%3E%3Cpath d='M-12.6 126.7L-6.2 136.8' stroke='%232FA8FF'/%3E%3Cpath d='M167.4 126.7L173.8 136.8' stroke='%232FA8FF'/%3E%3Cpath d='M108.9 -1.4L112.7 10' stroke='%23FFC531'/%3E%3Cpath d='M108.9 178.6L112.7 190' stroke='%23FFC531'/%3E%3Cpath d='M68.1 153.8L58.5 161' stroke='%233DCB6C'/%3E%3Cpath d='M126.6 87.5L118 95.9' stroke='%239B6BFF'/%3E%3Cpath d='M3.6 6L13.6 12.7' stroke='%23FF7A2F'/%3E%3Cpath d='M3.6 186L13.6 192.7' stroke='%23FF7A2F'/%3E%3Cpath d='M183.6 6L193.6 12.7' stroke='%23FF7A2F'/%3E%3Cpath d='M183.6 186L193.6 192.7' stroke='%23FF7A2F'/%3E%3Cpath d='M57.2 98.4L69.1 99.9' stroke='%23FF4FA3'/%3E%3Cpath d='M-12.7 101.6L-0.8 103.3' stroke='%232FA8FF'/%3E%3Cpath d='M167.3 101.6L179.2 103.3' stroke='%232FA8FF'/%3E%3Cpath d='M27.9 -12.9L29.4 -1' stroke='%23FFC531'/%3E%3Cpath d='M27.9 167.1L29.4 179' stroke='%23FFC531'/%3E%3Cpath d='M122.6 46.1L126.1 57.6' stroke='%233DCB6C'/%3E%3Cpath d='M12.3 142.1L23.9 145.2' stroke='%239B6BFF'/%3E%3Cpath d='M139.9 26.4L132.5 35.8' stroke='%23FF7A2F'/%3E%3Cpath d='M42.2 41.9L45.6 53.4' stroke='%23FF4FA3'/%3E%3Cpath d='M87 106.7L92 117.6' stroke='%232FA8FF'/%3E%3Cpath d='M69.5 23.6L72.3 35.3' stroke='%23FFC531'/%3E%3Cpath d='M151.7 144.1L150 156' stroke='%233DCB6C'/%3E%3Cpath d='M85 130.6L74.5 136.6' stroke='%239B6BFF'/%3E%3Cpath d='M80.8 -3.9L90.4 3.3' stroke='%23FF7A2F'/%3E%3Cpath d='M80.8 176.1L90.4 183.3' stroke='%23FF7A2F'/%3E%3Cpath d='M32.1 9.8L38.2 20.1' stroke='%23FF4FA3'/%3E%3Cpath d='M-13.9 156.8L-2.7 161' stroke='%232FA8FF'/%3E%3Cpath d='M166.1 156.8L177.3 161' stroke='%232FA8FF'/%3E%3Cpath d='M63.7 56.8L63.1 68.8' stroke='%23FFC531'/%3E%3Cpath d='M157.1 113.1L149.5 122.4' stroke='%233DCB6C'/%3E%3Cpath d='M127.6 -6.5L137.1 0.8' stroke='%239B6BFF'/%3E%3Cpath d='M127.6 173.5L137.1 180.8' stroke='%239B6BFF'/%3E%3Cpath d='M95.9 24.7L107.7 27.1' stroke='%23FF7A2F'/%3E%3Cpath d='M146.4 90.3L142.1 101.5' stroke='%23FF4FA3'/%3E%3Cpath d='M107.3 58.8L99.7 68.1' stroke='%232FA8FF'/%3E%3Cpath d='M125.4 111.4L135.1 118.5' stroke='%23FFC531'/%3E%3Cpath d='M47.6 90.2L35.7 91.9' stroke='%233DCB6C'/%3E%3Cpath d='M164.9 31.1L154.7 37.4' stroke='%239B6BFF'/%3E%3Cpath d='M109.5 120.2L107.3 132' stroke='%23FF7A2F'/%3E%3Cpath d='M34 147.6L43.6 154.7' stroke='%23FF4FA3'/%3E%3Cpath d='M152.8 49.6L142.5 55.8' stroke='%232FA8FF'/%3E%3Cpath d='M63.5 115.6L58.9 126.7' stroke='%23FFC531'/%3E%3Cpath d='M17.5 41.8L25.7 50.5' stroke='%233DCB6C'/%3E%3C/svg%3E") 0 0/180px 180px;
+}
+
+/* Fruit salad: slices and berries on a picnic cloth. The pressed edge of the button is the watermelon rind. */
+[data-palette="fruit"]{
+  --bg:light-dark(#F4FBF1,#13301F);--ink:light-dark(#173A26,#EAF8EE);--ink2:light-dark(#4E6E5A,#A9CDB5);--line:light-dark(#1E5B3A,#BDEBCB);
+  --card:light-dark(#FFFFFF,#1C3F2A);--soft:light-dark(#E6F5E4,#24503A);--spot:light-dark(#FFE3E6,#2F5A44);
+  --go:#FF5A6E;--go-fill:#FF5A6E;--go-edge:#2E8B45;--go-ink:#3A0710;
+  --rv:light-dark(#6B3FD6,#C2AEFF);--rv-soft:light-dark(#ECE4FF,#35295A);--rv-ink:light-dark(#FFFFFF,#151318);
+  --sun:#FFC531;
+  --pop:#FF9A1F;--tag:light-dark(#1E5B3A,#FFC531);--tag-ink:light-dark(#FFE27A,#173A26);
+  --page-art:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg transform='translate(0 6.6) rotate(291)'%3E%3Ccircle r='17' fill='%23FF9A1F'/%3E%3Ccircle r='13.5' fill='%23FFC861'/%3E%3Cg stroke='%23FFE9B8' stroke-width='2'%3E%3Cpath d='M0-13V13M-13 0H13M-9.2-9.2L9.2 9.2M9.2-9.2L-9.2 9.2'/%3E%3C/g%3E%3Ccircle r='2.5' fill='%23FFE9B8'/%3E%3C/g%3E%3Cg transform='translate(0 266.6) rotate(291)'%3E%3Ccircle r='17' fill='%23FF9A1F'/%3E%3Ccircle r='13.5' fill='%23FFC861'/%3E%3Cg stroke='%23FFE9B8' stroke-width='2'%3E%3Cpath d='M0-13V13M-13 0H13M-9.2-9.2L9.2 9.2M9.2-9.2L-9.2 9.2'/%3E%3C/g%3E%3Ccircle r='2.5' fill='%23FFE9B8'/%3E%3C/g%3E%3Cg transform='translate(260 6.6) rotate(291)'%3E%3Ccircle r='17' fill='%23FF9A1F'/%3E%3Ccircle r='13.5' fill='%23FFC861'/%3E%3Cg stroke='%23FFE9B8' stroke-width='2'%3E%3Cpath d='M0-13V13M-13 0H13M-9.2-9.2L9.2 9.2M9.2-9.2L-9.2 9.2'/%3E%3C/g%3E%3Ccircle r='2.5' fill='%23FFE9B8'/%3E%3C/g%3E%3Cg transform='translate(260 266.6) rotate(291)'%3E%3Ccircle r='17' fill='%23FF9A1F'/%3E%3Ccircle r='13.5' fill='%23FFC861'/%3E%3Cg stroke='%23FFE9B8' stroke-width='2'%3E%3Cpath d='M0-13V13M-13 0H13M-9.2-9.2L9.2 9.2M9.2-9.2L-9.2 9.2'/%3E%3C/g%3E%3Ccircle r='2.5' fill='%23FFE9B8'/%3E%3C/g%3E%3Cg transform='translate(98.5 142.7) rotate(289)'%3E%3Ccircle r='15' fill='%23F5C800'/%3E%3Ccircle r='11.5' fill='%23FFF07A'/%3E%3Cg stroke='%23FFFBD6' stroke-width='2'%3E%3Cpath d='M0-11V11M-9.5-5.7L9.5 5.7M9.5-5.7L-9.5 5.7'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(65.9 9.4) rotate(138)'%3E%3Cpath d='M-22 0A22 22 0 0 0 22 0Z' fill='%233FAE4A'/%3E%3Cpath d='M-18.5 0A18.5 18.5 0 0 0 18.5 0Z' fill='%23C9F2A6'/%3E%3Cpath d='M-16 0A16 16 0 0 0 16 0Z' fill='%23FF4D63'/%3E%3Cg fill='%232A1A1A'%3E%3Cellipse cx='-7' cy='5' rx='1.4' ry='2.2'/%3E%3Cellipse cx='0' cy='8' rx='1.4' ry='2.2'/%3E%3Cellipse cx='7' cy='5' rx='1.4' ry='2.2'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(65.9 269.4) rotate(138)'%3E%3Cpath d='M-22 0A22 22 0 0 0 22 0Z' fill='%233FAE4A'/%3E%3Cpath d='M-18.5 0A18.5 18.5 0 0 0 18.5 0Z' fill='%23C9F2A6'/%3E%3Cpath d='M-16 0A16 16 0 0 0 16 0Z' fill='%23FF4D63'/%3E%3Cg fill='%232A1A1A'%3E%3Cellipse cx='-7' cy='5' rx='1.4' ry='2.2'/%3E%3Cellipse cx='0' cy='8' rx='1.4' ry='2.2'/%3E%3Cellipse cx='7' cy='5' rx='1.4' ry='2.2'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(21.3 159.6) rotate(227)'%3E%3Cpath d='M-7 4Q-4-12 6-16M7 6Q6-8 6-16' stroke='%233B8C2E' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M6-16q8-4 10 2q-6 2-10-2z' fill='%234CB43C'/%3E%3Ccircle cx='-8' cy='8' r='7' fill='%23E5203A'/%3E%3Ccircle cx='8' cy='10' r='7' fill='%23E5203A'/%3E%3Ccircle cx='-10' cy='5.5' r='2' fill='%23FF8C9A'/%3E%3Ccircle cx='6' cy='7.5' r='2' fill='%23FF8C9A'/%3E%3C/g%3E%3Cg transform='translate(281.3 159.6) rotate(227)'%3E%3Cpath d='M-7 4Q-4-12 6-16M7 6Q6-8 6-16' stroke='%233B8C2E' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M6-16q8-4 10 2q-6 2-10-2z' fill='%234CB43C'/%3E%3Ccircle cx='-8' cy='8' r='7' fill='%23E5203A'/%3E%3Ccircle cx='8' cy='10' r='7' fill='%23E5203A'/%3E%3Ccircle cx='-10' cy='5.5' r='2' fill='%23FF8C9A'/%3E%3Ccircle cx='6' cy='7.5' r='2' fill='%23FF8C9A'/%3E%3C/g%3E%3Cg transform='translate(162.2 129.5) rotate(317)'%3E%3Cpath d='M0 16C-12 8-15-4-11-8C-6-12 6-12 11-8C15-4 12 8 0 16Z' fill='%23F23A4F'/%3E%3Cpath d='M-9-9l4 3l5-5l5 5l4-3l-3-4h-12z' fill='%233FAE4A'/%3E%3Cg fill='%23FFE27A'%3E%3Ccircle cx='-5' cy='-2' r='1.1'/%3E%3Ccircle cx='3' cy='-3' r='1.1'/%3E%3Ccircle cx='-1' cy='4' r='1.1'/%3E%3Ccircle cx='6' cy='3' r='1.1'/%3E%3Ccircle cx='-6' cy='5' r='1.1'/%3E%3Ccircle cx='1' cy='10' r='1.1'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(113.5 46) rotate(199)'%3E%3Ccircle r='15' fill='%238A6A3A'/%3E%3Ccircle r='12.5' fill='%238BD14C'/%3E%3Ccircle r='5' fill='%23E9F7C8'/%3E%3Cg fill='%232A2416'%3E%3Ccircle cx='7.5' cy='0' r='1'/%3E%3Ccircle cx='6.1' cy='4.4' r='1'/%3E%3Ccircle cx='2.3' cy='7.1' r='1'/%3E%3Ccircle cx='-2.3' cy='7.1' r='1'/%3E%3Ccircle cx='-6.1' cy='4.4' r='1'/%3E%3Ccircle cx='-7.5' cy='0' r='1'/%3E%3Ccircle cx='-6.1' cy='-4.4' r='1'/%3E%3Ccircle cx='-2.3' cy='-7.1' r='1'/%3E%3Ccircle cx='2.3' cy='-7.1' r='1'/%3E%3Ccircle cx='6.1' cy='-4.4' r='1'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(156.6 206.9) rotate(38)'%3E%3Ccircle r='17' fill='%23FF9A1F'/%3E%3Ccircle r='13.5' fill='%23FFC861'/%3E%3Cg stroke='%23FFE9B8' stroke-width='2'%3E%3Cpath d='M0-13V13M-13 0H13M-9.2-9.2L9.2 9.2M9.2-9.2L-9.2 9.2'/%3E%3C/g%3E%3Ccircle r='2.5' fill='%23FFE9B8'/%3E%3C/g%3E%3Cg transform='translate(-22.9 102.2) rotate(348)'%3E%3Ccircle r='15' fill='%23F5C800'/%3E%3Ccircle r='11.5' fill='%23FFF07A'/%3E%3Cg stroke='%23FFFBD6' stroke-width='2'%3E%3Cpath d='M0-11V11M-9.5-5.7L9.5 5.7M9.5-5.7L-9.5 5.7'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(237.1 102.2) rotate(348)'%3E%3Ccircle r='15' fill='%23F5C800'/%3E%3Ccircle r='11.5' fill='%23FFF07A'/%3E%3Cg stroke='%23FFFBD6' stroke-width='2'%3E%3Cpath d='M0-11V11M-9.5-5.7L9.5 5.7M9.5-5.7L-9.5 5.7'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(94.9 217) rotate(305)'%3E%3Cpath d='M-22 0A22 22 0 0 0 22 0Z' fill='%233FAE4A'/%3E%3Cpath d='M-18.5 0A18.5 18.5 0 0 0 18.5 0Z' fill='%23C9F2A6'/%3E%3Cpath d='M-16 0A16 16 0 0 0 16 0Z' fill='%23FF4D63'/%3E%3Cg fill='%232A1A1A'%3E%3Cellipse cx='-7' cy='5' rx='1.4' ry='2.2'/%3E%3Cellipse cx='0' cy='8' rx='1.4' ry='2.2'/%3E%3Cellipse cx='7' cy='5' rx='1.4' ry='2.2'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(41.8 78.9) rotate(54)'%3E%3Cpath d='M-7 4Q-4-12 6-16M7 6Q6-8 6-16' stroke='%233B8C2E' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M6-16q8-4 10 2q-6 2-10-2z' fill='%234CB43C'/%3E%3Ccircle cx='-8' cy='8' r='7' fill='%23E5203A'/%3E%3Ccircle cx='8' cy='10' r='7' fill='%23E5203A'/%3E%3Ccircle cx='-10' cy='5.5' r='2' fill='%23FF8C9A'/%3E%3Ccircle cx='6' cy='7.5' r='2' fill='%23FF8C9A'/%3E%3C/g%3E%3Cg transform='translate(174.9 27.3) rotate(254)'%3E%3Cpath d='M0 16C-12 8-15-4-11-8C-6-12 6-12 11-8C15-4 12 8 0 16Z' fill='%23F23A4F'/%3E%3Cpath d='M-9-9l4 3l5-5l5 5l4-3l-3-4h-12z' fill='%233FAE4A'/%3E%3Cg fill='%23FFE27A'%3E%3Ccircle cx='-5' cy='-2' r='1.1'/%3E%3Ccircle cx='3' cy='-3' r='1.1'/%3E%3Ccircle cx='-1' cy='4' r='1.1'/%3E%3Ccircle cx='6' cy='3' r='1.1'/%3E%3Ccircle cx='-6' cy='5' r='1.1'/%3E%3Ccircle cx='1' cy='10' r='1.1'/%3E%3C/g%3E%3C/g%3E%3Cg transform='translate(218.1 165.6) rotate(343)'%3E%3Ccircle r='15' fill='%238A6A3A'/%3E%3Ccircle r='12.5' fill='%238BD14C'/%3E%3Ccircle r='5' fill='%23E9F7C8'/%3E%3Cg fill='%232A2416'%3E%3Ccircle cx='7.5' cy='0' r='1'/%3E%3Ccircle cx='6.1' cy='4.4' r='1'/%3E%3Ccircle cx='2.3' cy='7.1' r='1'/%3E%3Ccircle cx='-2.3' cy='7.1' r='1'/%3E%3Ccircle cx='-6.1' cy='4.4' r='1'/%3E%3Ccircle cx='-7.5' cy='0' r='1'/%3E%3Ccircle cx='-6.1' cy='-4.4' r='1'/%3E%3Ccircle cx='-2.3' cy='-7.1' r='1'/%3E%3Ccircle cx='2.3' cy='-7.1' r='1'/%3E%3Ccircle cx='6.1' cy='-4.4' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 0 0/330px 330px,
+    repeating-linear-gradient(0deg,light-dark(rgba(255,90,110,.13),rgba(255,90,110,.1)) 0 22px,transparent 22px 44px),
+    repeating-linear-gradient(90deg,light-dark(rgba(255,90,110,.13),rgba(255,90,110,.1)) 0 22px,transparent 22px 44px);
+}
+
+/* Galaxy: planets, comets and twinkles on deep space, with neon outlines. Always dark. */
+[data-palette="galaxy"]{
+  color-scheme:dark;
+  --bg:#160F3A;--ink:#F3F0FF;--ink2:#B9B0E8;--line:#8C7CFF;
+  --card:#231A55;--soft:#2E2468;--spot:#3A2F7A;
+  --go:#FFD23F;--go-fill:#FFD23F;--go-edge:#C99A00;--go-ink:#1A1040;
+  --rv:#5FD4FF;--rv-soft:#1C3B5C;--rv-ink:#0B1A33;
+  --sun:#FF5FD2;
+  --pop:#FF5FD2;--tag:#FFD23F;--tag-ink:#1A1040;
+  --page-art:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cg transform='translate(60 70)'%3E%3Ccircle r='15' fill='%23FF8A3D'/%3E%3Cpath d='M-15-3a15 15 0 0 1 30 0' fill='%23FFB36B' opacity='.6'/%3E%3Cellipse rx='27' ry='7' fill='none' stroke='%23FFD23F' stroke-width='3.2' transform='rotate(-18)'/%3E%3Cpath d='M-15 0a15 15 0 0 0 30 0' fill='%23FF8A3D' transform='rotate(-18)'/%3E%3C/g%3E%3Cg transform='translate(215 210)'%3E%3Ccircle r='11' fill='%23FF5FD2'/%3E%3Ccircle cx='-3.5' cy='-3' r='3' fill='%23FF9BE6'/%3E%3Ccircle cx='4' cy='4' r='2' fill='%23D63FB0'/%3E%3C/g%3E%3Cg transform='translate(230 40)'%3E%3Ccircle r='7' fill='%237FE3FF'/%3E%3Ccircle cx='-2' cy='-2' r='2' fill='%23C9F4FF'/%3E%3C/g%3E%3Cg transform='translate(110 255)'%3E%3Ccircle r='9' fill='%236CE08A'/%3E%3Cpath d='M-9 0h18M-7-5h14M-7 5h14' stroke='%233FB866' stroke-width='2'/%3E%3C/g%3E%3Cg transform='translate(150 140)'%3E%3Cpath d='M-14 6Q4-2 22-16' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round' opacity='.55'/%3E%3Ccircle cx='-14' cy='6' r='3.6' fill='%23FFFFFF'/%3E%3C/g%3E%3Cg transform='translate(20 20)'%3E%3Cpath d='M0-9Q1.6199999999999999-1.6199999999999999 9 0Q1.6199999999999999 1.6199999999999999 0 9Q-1.6199999999999999 1.6199999999999999-9 0Q-1.6199999999999999-1.6199999999999999 0-9Z' fill='%23FFD23F'/%3E%3C/g%3E%3Cg transform='translate(140 30)'%3E%3Cpath d='M0-7Q1.26-1.26 7 0Q1.26 1.26 0 7Q-1.26 1.26-7 0Q-1.26-1.26 0-7Z' fill='%237FE3FF'/%3E%3C/g%3E%3Cg transform='translate(270 120)'%3E%3Cpath d='M0-8Q1.44-1.44 8 0Q1.44 1.44 0 8Q-1.44 1.44-8 0Q-1.44-1.44 0-8Z' fill='%23FFFFFF'/%3E%3C/g%3E%3Cg transform='translate(30 170)'%3E%3Cpath d='M0-8Q1.44-1.44 8 0Q1.44 1.44 0 8Q-1.44 1.44-8 0Q-1.44-1.44 0-8Z' fill='%23FF9BE6'/%3E%3C/g%3E%3Cg transform='translate(180 95)'%3E%3Cpath d='M0-6Q1.08-1.08 6 0Q1.08 1.08 0 6Q-1.08 1.08-6 0Q-1.08-1.08 0-6Z' fill='%23FFD23F'/%3E%3C/g%3E%3Cg transform='translate(255 285)'%3E%3Cpath d='M0-6Q1.08-1.08 6 0Q1.08 1.08 0 6Q-1.08 1.08-6 0Q-1.08-1.08 0-6Z' fill='%23FFFFFF'/%3E%3C/g%3E%3Cg transform='translate(60 255)'%3E%3Cpath d='M0-7Q1.26-1.26 7 0Q1.26 1.26 0 7Q-1.26 1.26-7 0Q-1.26-1.26 0-7Z' fill='%23FFD23F'/%3E%3C/g%3E%3Cg transform='translate(200 270)'%3E%3Cpath d='M0-5Q0.8999999999999999-0.8999999999999999 5 0Q0.8999999999999999 0.8999999999999999 0 5Q-0.8999999999999999 0.8999999999999999-5 0Q-0.8999999999999999-0.8999999999999999 0-5Z' fill='%237FE3FF'/%3E%3C/g%3E%3Ccircle cx='0' cy='55.2' r='1.6' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='238.5' cy='291.2' r='1.1' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='34.1' cy='123.7' r='1.1' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='143.6' cy='93.3' r='1.2' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='12.1' cy='20.8' r='1.1' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='227.2' cy='54.3' r='1' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='184.7' cy='222.7' r='1.6' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='223.2' cy='93.2' r='0.8' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='108.6' cy='128.2' r='1.3' fill='%23FFFFFF' opacity='1'/%3E%3Ccircle cx='208.1' cy='242.3' r='1.7' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='67' cy='252.9' r='1.2' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='259.1' cy='196.3' r='1.4' fill='%23FFFFFF' opacity='1'/%3E%3Ccircle cx='136.3' cy='278.3' r='1.7' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='42' cy='142.2' r='0.9' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='113.6' cy='23.7' r='0.8' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='42.6' cy='162.2' r='1.4' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='263.9' cy='133.7' r='1.1' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='159' cy='199.1' r='1.2' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='148.1' cy='67.3' r='1.5' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='140.6' cy='135.2' r='1.6' fill='%23FFFFFF' opacity='1'/%3E%3Ccircle cx='135.1' cy='38.5' r='0.8' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='244.3' cy='199.8' r='1.4' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='298.5' cy='299.1' r='0.7' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='47.7' cy='185.8' r='1' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='212.6' cy='172.1' r='1.1' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='250.7' cy='63.4' r='1.3' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='115' cy='43.5' r='0.9' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='243' cy='145.9' r='1.3' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='297.4' cy='5' r='1.3' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='131.4' cy='274.4' r='1.1' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='245.7' cy='141.4' r='0.6' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='72.6' cy='116.5' r='1.1' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='188.4' cy='257.4' r='1.8' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='105.9' cy='39.6' r='1.2' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='149.3' cy='98.3' r='0.9' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='93.3' cy='179.6' r='0.6' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='254.9' cy='203.7' r='0.9' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='80.7' cy='119' r='0.8' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='40.3' cy='239.3' r='1.6' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='42.1' cy='258.4' r='1.3' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='69.2' cy='86.4' r='1.2' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='76.6' cy='34.5' r='1.6' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='158.2' cy='207.8' r='0.8' fill='%23FFFFFF' opacity='1'/%3E%3Ccircle cx='248.9' cy='137.9' r='1.4' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='83.3' cy='64.8' r='0.7' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='43.7' cy='21.2' r='0.9' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='259.4' cy='281.2' r='0.7' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='75.3' cy='224.3' r='0.9' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='121.1' cy='107.4' r='1.6' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='168.7' cy='208.4' r='1.7' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='60.2' cy='96' r='1.7' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='198.4' cy='181.2' r='1.6' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='279.3' cy='217.9' r='0.8' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='288.1' cy='170.3' r='1.6' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='61.9' cy='107.6' r='1.4' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='292.3' cy='217.5' r='0.8' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='126.2' cy='120.1' r='0.6' fill='%23FFFFFF' opacity='0.5'/%3E%3Ccircle cx='238.8' cy='74.9' r='1.6' fill='%23FFFFFF' opacity='0.4'/%3E%3Ccircle cx='268.7' cy='75.8' r='0.7' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='281.9' cy='4.3' r='1.6' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='280.1' cy='287.3' r='0.8' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='85.9' cy='271.1' r='1.8' fill='%23FFFFFF' opacity='0.6'/%3E%3Ccircle cx='202.3' cy='164.1' r='0.6' fill='%23FFFFFF' opacity='0.4'/%3E%3Ccircle cx='288.1' cy='163.8' r='1.6' fill='%23FFFFFF' opacity='0.9'/%3E%3Ccircle cx='42.7' cy='37.5' r='1.6' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='114.1' cy='137.5' r='1.6' fill='%23FFFFFF' opacity='0.8'/%3E%3Ccircle cx='262.8' cy='199.8' r='1.7' fill='%23FFFFFF' opacity='1'/%3E%3Ccircle cx='218.9' cy='149.8' r='1.3' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='152.6' cy='126.9' r='0.9' fill='%23FFFFFF' opacity='0.7'/%3E%3Ccircle cx='297.5' cy='16.4' r='1.6' fill='%23FFFFFF' opacity='0.7'/%3E%3C/svg%3E") 0 0/300px 300px,
+    radial-gradient(80% 55% at 15% 5%,#3B2380 0,transparent 70%),radial-gradient(70% 50% at 100% 85%,#3A1650 0,transparent 70%);
+}
+
+/* Sticker palettes: anything that sits straight on the page gets a card sticker, so text never runs over the art. */
+:root:is([data-palette="squiggles"],[data-palette="sprinkles"],[data-palette="fruit"],[data-palette="galaxy"]){
+  & :is(.brand,.hero,#home>.today,.week,.path li,.swatches,.gcard,.notes li,.prog,.slabel,.eq,.msg,.backrow,.gintro,#done>h1,#done>p){
+    background:var(--card);border:3px solid var(--line);box-shadow:4px 4px 0 var(--pop)}
+  & :is(.brand,.hero,.week,.swatches,.slabel,.eq,.backrow,.gintro,#done>h1,#done>p){width:fit-content;max-width:100%}
+  & .hero{border-radius:28px;padding:12px 22px 12px 12px}
+  & .brand{border-radius:14px;padding:3px 12px 3px 8px}
+  & .week{border-radius:18px;padding:8px 14px 12px;gap:6px}
+  & .week .lbl{flex-basis:100%}
+  & :is(#home>h2,.colours h2){display:inline-block;background:var(--tag);color:var(--tag-ink);padding:3px 14px;border-radius:12px;transform:rotate(-2deg)}
+  & .path li{border-radius:20px}
+  & .path li.lock{opacity:1}
+  & .path li.lock>*{opacity:.5}
+  & .path li.cur{border-color:var(--go);box-shadow:5px 5px 0 var(--go)}
+  & .swatches{border-radius:20px;padding:12px 14px}
+  & .gcard,& .notes li{border-radius:18px}
+  & .prog{padding:5px;border-radius:12px}
+  & .slabel{padding:2px 12px;border-radius:999px}
+  & .eq{justify-self:center;padding:8px 16px;border-radius:22px}
+  & .msg{border-radius:16px;padding:8px 12px}
+  & .backrow{padding:6px 16px 6px 6px;border-radius:18px}
+  & .gintro{padding:8px 14px;border-radius:16px}
+  & :is(#done>h1,#done>p){margin-inline:auto;padding:4px 16px;border-radius:16px}
+  & #done>h1{margin-bottom:12px}
+  & :is(.icon-btn,.seg,.dogwrap,.opt,.day,.bubble,.sw){border:2.5px solid var(--line)}
+  & .seg button[aria-pressed="true"]{background:var(--line);color:var(--line-ink,var(--card))}
+  & .home-foot .link{background:var(--card);border-radius:999px;padding:4px 14px;color:var(--ink)}
+  & .btn{border:3px solid var(--line)}
+  & .btn:active{transform:translateY(3px) rotate(-1.5deg)}
+  & .pad button{border:2.5px solid var(--line)}
+  & .tray{outline:3px solid var(--line);outline-offset:0}
+}
+
+/* Squiggles: blocks get flat colour, a black outline, a cartoon shine and a hard shadow. */
 :where(:root[data-palette="squiggles"]) .cb{
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M5.5 12.5q0-6 6.5-7'/%3E%3C/svg%3E") 0 0/100% 100%,var(--c);
   box-shadow:inset 0 0 0 2px #151318,2px 2px 0 #151318}
@@ -116,3 +162,7 @@
 :where(:root[data-palette="squiggles"]) .conf.sq{width:22px;height:11px;border-radius:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20' fill='none' stroke='black' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M4 10q6-9 12 0t12 0t12 0'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 20' fill='none' stroke='black' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M4 10q6-9 12 0t12 0t12 0'/%3E%3C/svg%3E") center/contain no-repeat}
 :where(:root[data-palette="squiggles"]) .conf.go{background:#151318}
 :where(:root[data-palette="squiggles"]) .conf.sun{background:var(--rainbow)}
+/* Sprinkles confetti: little rods. Fruit: round berries. Galaxy: stars. */
+:where(:root[data-palette="sprinkles"]) .conf.sq{width:5px;height:15px;border-radius:3px}
+:where(:root[data-palette="fruit"]) .conf.sq{width:11px;height:11px;border-radius:50%}
+:where(:root[data-palette="galaxy"]) .conf.sq{width:16px;height:16px;border-radius:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'%3E%3Cpath d='M0-10Q1.8-1.8 10 0Q1.8 1.8 0 10Q-1.8 1.8-10 0Q-1.8-1.8 0-10Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'%3E%3Cpath d='M0-10Q1.8-1.8 10 0Q1.8 1.8 0 10Q-1.8 1.8-10 0Q-1.8-1.8 0-10Z'/%3E%3C/svg%3E") center/contain no-repeat}
